@@ -1,0 +1,248 @@
+fileFormatVersion: 2
+guid: 517dae75a60f0b849b67959007758bc8
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: ButtonRim
+    100002: DoorFrame
+    100004: //RootNode
+    100006: LeftArrow
+    100008: LeftDoor
+    100010: ModelComponent
+    100012: RightArrow
+    100014: RightDoor
+    100016: StartButton
+    100018: Wire1
+    100020: Wire10
+    100022: Wire11
+    100024: Wire12
+    100026: Wire13
+    100028: Wire14
+    100030: Wire15
+    100032: Wire16
+    100034: Wire17
+    100036: Wire18
+    100038: Wire2
+    100040: Wire3
+    100042: Wire4
+    100044: Wire5
+    100046: Wire6
+    100048: Wire7
+    100050: Wire8
+    100052: Wire9
+    100054: WireContainerFB
+    100056: WireContainerLRB
+    100058: RightDoorFrame
+    100060: LED
+    100062: LEDRim
+    400000: ButtonRim
+    400002: DoorFrame
+    400004: //RootNode
+    400006: LeftArrow
+    400008: LeftDoor
+    400010: ModelComponent
+    400012: RightArrow
+    400014: RightDoor
+    400016: StartButton
+    400018: Wire1
+    400020: Wire10
+    400022: Wire11
+    400024: Wire12
+    400026: Wire13
+    400028: Wire14
+    400030: Wire15
+    400032: Wire16
+    400034: Wire17
+    400036: Wire18
+    400038: Wire2
+    400040: Wire3
+    400042: Wire4
+    400044: Wire5
+    400046: Wire6
+    400048: Wire7
+    400050: Wire8
+    400052: Wire9
+    400054: WireContainerFB
+    400056: WireContainerLRB
+    400058: RightDoorFrame
+    400060: LED
+    400062: LEDRim
+    2100000: Default OBJ
+    2100002: Vertex OBJ
+    2100004: No Name
+    2100006: WhiteMatMetal
+    2100008: WhiteMat
+    2100010: MetalMat
+    2300000: ButtonRim
+    2300002: DoorFrame
+    2300004: LeftArrow
+    2300006: LeftDoor
+    2300008: ModelComponent
+    2300010: RightArrow
+    2300012: RightDoor
+    2300014: StartButton
+    2300016: Wire1
+    2300018: Wire10
+    2300020: Wire11
+    2300022: Wire12
+    2300024: Wire13
+    2300026: Wire14
+    2300028: Wire15
+    2300030: Wire16
+    2300032: Wire17
+    2300034: Wire18
+    2300036: Wire2
+    2300038: Wire3
+    2300040: Wire4
+    2300042: Wire5
+    2300044: Wire6
+    2300046: Wire7
+    2300048: Wire8
+    2300050: Wire9
+    2300052: WireContainerFB
+    2300054: WireContainerLRB
+    2300056: RightDoorFrame
+    2300058: LED
+    2300060: LEDRim
+    3300000: ButtonRim
+    3300002: DoorFrame
+    3300004: LeftArrow
+    3300006: LeftDoor
+    3300008: ModelComponent
+    3300010: RightArrow
+    3300012: RightDoor
+    3300014: StartButton
+    3300016: Wire1
+    3300018: Wire10
+    3300020: Wire11
+    3300022: Wire12
+    3300024: Wire13
+    3300026: Wire14
+    3300028: Wire15
+    3300030: Wire16
+    3300032: Wire17
+    3300034: Wire18
+    3300036: Wire2
+    3300038: Wire3
+    3300040: Wire4
+    3300042: Wire5
+    3300044: Wire6
+    3300046: Wire7
+    3300048: Wire8
+    3300050: Wire9
+    3300052: WireContainerFB
+    3300054: WireContainerLRB
+    3300056: RightDoorFrame
+    3300058: LED
+    3300060: LEDRim
+    4300000: ModelComponent
+    4300002: WireContainerLRB
+    4300004: Wire1
+    4300006: Wire7
+    4300008: Wire2
+    4300010: Wire4
+    4300012: Wire11
+    4300014: Wire3
+    4300016: Wire5
+    4300018: Wire9
+    4300020: Wire6
+    4300022: Wire8
+    4300024: Wire10
+    4300026: Wire12
+    4300028: Wire13
+    4300030: Wire15
+    4300032: Wire17
+    4300034: Wire18
+    4300036: Wire14
+    4300038: Wire16
+    4300040: DoorFrame
+    4300042: RightDoor
+    4300044: LeftDoor
+    4300046: RightArrow
+    4300048: LeftArrow
+    4300050: ButtonRim
+    4300052: StartButton
+    4300054: WireContainerFB
+    4300056: RightDoorFrame
+    4300058: LEDRim
+    4300060: LED
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
