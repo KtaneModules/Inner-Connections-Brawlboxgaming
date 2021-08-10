@@ -22,26 +22,15 @@ public class InnerConnectionsScript : MonoBehaviour
 
     private Coroutine timer;
     private static int _moduleIdCounter = 1;
-    private int _moduleId, rndLEDColour, rndWireColour, morseNumber, wiresPosition = 0, ix;
+    private int _moduleId, rndLEDColour, morseNumber, wiresPosition = 0, ix;
     private bool _moduleSolved, _doorOpen, wiresMoving = false;
     private static readonly string[] morseArray = new[] { "-----", ".----", "..---", "...--", "....-", ".....", "-....", "--...", "---..", "----." },
                                      colourList = new[] { "Black", "Blue", "Red", "White", "Yellow" };
-    private string[][] firstColourTable = new[]{
-        new[] { "Yellow", "Blue", "White", "Red", "Black" },
-        new[] { "Black", "White", "Yellow", "Red", "Blue" },
-        new[] { "Yellow", "Red", "Black", "Blue", "White" },
-        new[] { "Red", "Yellow", "Blue", "Black", "White" },
-        new[] { "Blue", "White", "Yellow", "Red", "Black" },
-        new[] { "White", "Black", "Yellow", "Red", "Blue" },
-        new[] { "Red", "Black", "Blue", "Yellow", "White" },
-        new[] { "Yellow", "White", "Blue", "Black", "Red" },
-        new[] { "Black", "Blue", "Yellow", "Red", "White" },
-        new[] { "Blue", "Black", "Yellow", "Red", "White" } };
-    private int[] rndArray = new[] { 0, 1, 2, 3, 4 }, rndColoursArray = new[] { 0, 1, 2, 3, 4 }, exceptionWires = new int[2], secondWires = new int[5];
+    private List<int[]> firstColourTable = new List<int[]>();
+    private int[] rndArray = new[] { 0, 1, 2, 3, 4 }, rndColoursArray = new[] { 0, 1, 2, 3, 4 }, exceptionWires = new int[2], secondWires = new int[5], wireColours = new int[18];
     private float[] childrenPosX;
     private float parentPosX;
-    private string firstWireColour = "", secondWireColour = "";
-    private string[] wireColourNames = new string[18];
+    private int firstWireColour, secondWireColour;
     private bool[] wiresCut = new[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
            wiresNeededToCut = new[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false };
 
@@ -52,8 +41,7 @@ public class InnerConnectionsScript : MonoBehaviour
         for (int i = 0; i < 10; i++)
         {
             random.ShuffleFisherYates(rndColoursArray);
-            for (int j = 0; j < 5; j++)
-                firstColourTable[i][j] = colourList[rndColoursArray[j]];
+            firstColourTable.Add(rndColoursArray.ToArray());
         }
 
         random.ShuffleFisherYates(rndColoursArray);
@@ -90,8 +78,9 @@ public class InnerConnectionsScript : MonoBehaviour
         morseNumber = Rnd.Range(0, 10);
         rndLEDColour = Rnd.Range(0, 5);
 
-        Debug.LogFormat("[Inner Connections #{0}] The LED's displayed number is {1}", _moduleId, morseNumber);
-        Debug.LogFormat("[Inner Connections #{0}] The LED's colour is {1}", _moduleId, colourList[rndLEDColour]);
+        Debug.LogFormat("[Inner Connections #{0}] The rule seed is {1}.", _moduleId, random.Seed);
+        Debug.LogFormat("[Inner Connections #{0}] The LED's displayed number is {1}.", _moduleId, morseNumber);
+        Debug.LogFormat("[Inner Connections #{0}] The LED's colour is {1}.", _moduleId, colourList[rndLEDColour]);
 
         for (int i = 0; i < Wires.Length / 2; i++)
         {
@@ -99,29 +88,29 @@ public class InnerConnectionsScript : MonoBehaviour
             {
                 rndArray.Shuffle();
             }
-            rndWireColour = rndArray[i % 5];
+            var rndWireColour = rndArray[i % 5];
             Wires[i].GetComponent<MeshRenderer>().material = WireMats[rndWireColour];
             Wires[i + 18].GetComponent<MeshRenderer>().material = WireMats[rndWireColour];
-            wireColourNames[i] = colourList[rndWireColour];
+            wireColours[i] = rndWireColour;
         }
 
         if (morseNumber == BombInfo.GetIndicators().Count())
         {
             Debug.LogFormat("[Inner Connections #{0}] The LED's displayed number is equal to the number of indicators: {1}.", _moduleId, morseNumber);
-            firstWireColour = colourList[rndLEDColour];
+            firstWireColour = rndLEDColour;
         }
         else
         {
             int calculatedNumber = ((BombInfo.GetBatteryCount() + morseNumber) * colourList[rndLEDColour].Count()) % 9;
 
-            Debug.LogFormat("[Inner Connections #{0}] The calculated number is {1}", _moduleId, calculatedNumber);
+            Debug.LogFormat("[Inner Connections #{0}] The calculated number is {1}.", _moduleId, calculatedNumber);
 
             var ports = BombInfo.GetPorts().ToArray();
             if (ports.Contains("DVI"))
                 ix = 0;
             else if (ports.Contains("Parallel"))
                 ix = 1;
-            else if (ports.Contains("PS/2"))
+            else if (ports.Contains("PS2"))
                 ix = 2;
             else if (ports.Contains("RJ45"))
                 ix = 3;
@@ -130,19 +119,19 @@ public class InnerConnectionsScript : MonoBehaviour
             else if (ports.Contains("StereoRCA"))
             {
                 ix = -1;
-                firstWireColour = colourList[exceptionWires[0]];
+                firstWireColour = exceptionWires[0];
             }
             else
             {
                 ix = -1;
-                firstWireColour = colourList[exceptionWires[1]];
+                firstWireColour = exceptionWires[1];
             }
             if (ix > -1)
             {
                 firstWireColour = firstColourTable[calculatedNumber][ix];
             }
         }
-        Debug.LogFormat("[Inner Connections #{0}] The first wire colour to cut is {1}", _moduleId, firstWireColour);
+        Debug.LogFormat("[Inner Connections #{0}] The first wire colour to cut is {1}.", _moduleId, colourList[firstWireColour]);
 
         StartCoroutine(LEDFlash());
     }
@@ -159,7 +148,7 @@ public class InnerConnectionsScript : MonoBehaviour
                     i = i + 18;
                 }
 
-                if (childrenPosX[i] + parentPosX < -0.05f || childrenPosX[i] + parentPosX > 0.05f)
+                if (childrenPosX[i] + parentPosX < -0.045f || childrenPosX[i] + parentPosX > 0.045f)
                     Wires[i].SetActive(false);
 
                 else
@@ -182,7 +171,7 @@ public class InnerConnectionsScript : MonoBehaviour
     {
         for (int i = 15; i > 0; i--)
         {
-            TimerText.text = ((i+100)%100).ToString("00");
+            TimerText.text = i.ToString("00");
             yield return new WaitForSeconds(1f);
         }
         TimerText.text = "00";
@@ -202,6 +191,8 @@ public class InnerConnectionsScript : MonoBehaviour
         StartCoroutine(Move(LeftDoor.transform, -0.03f, 0f, -0.04035617f, 0f));
         StartCoroutine(Move(RightDoor.transform, 0.04f, 0f, -0.04035617f, 0f));
         StartCoroutine(Move(RightDoorFrame.transform, 0.04f, 0f, -0.04035617f, 0f));
+        StopCoroutine(timer);
+        TimerText.text = "47";
         _doorOpen = false;
         _moduleSolved = true;
     }
@@ -214,6 +205,7 @@ public class InnerConnectionsScript : MonoBehaviour
         StartCoroutine(Move(RightDoor.transform, 0.04f, 0f, -0.04035617f, 0f));
         StartCoroutine(Move(RightDoorFrame.transform, 0.04f, 0f, -0.04035617f, 0f));
         StopCoroutine(timer);
+        TimerText.text = "00";
         _doorOpen = false;
     }
 
@@ -252,36 +244,36 @@ public class InnerConnectionsScript : MonoBehaviour
         int unsolvedModules = BombInfo.GetSolvableModuleNames().Count() - BombInfo.GetSolvedModuleNames().Count();
 
         float ratio = solvedModules / unsolvedModules;
-        string closestRatio = "";
+        string lessThanRatio = "";
 
-        if (ratio >= 0 && ratio < 1.0 / 4.0)
+        if (ratio < 1.0 / 4.0)
         {
-            secondWireColour = colourList[secondWires[0]];
-            closestRatio = "0:1";
+            secondWireColour = secondWires[0];
+            lessThanRatio = "less than 1:4";
         }
 
-        else if (ratio >= 1.0 / 4.0 && ratio < 3.0 / 4.0)
+        else if (ratio < 1.0 / 2.0)
         {
-            secondWireColour = colourList[secondWires[1]];
-            closestRatio = "1:2";
+            secondWireColour = secondWires[1];
+            lessThanRatio = "less than 1:2";
         }
 
-        else if (ratio >= 3.0 / 4.0 && ratio < 3.0 / 2.0)
+        else if (ratio < 1.0)
         {
-            secondWireColour = colourList[secondWires[2]];
-            closestRatio = "1:1";
+            secondWireColour = secondWires[2];
+            lessThanRatio = "less than 1:1";
         }
 
-        else if (ratio >= 3.0 / 2.0 && ratio < 5.0 / 2.0)
+        else if (ratio < 2.0)
         {
-            secondWireColour = colourList[secondWires[3]];
-            closestRatio = "2:1";
+            secondWireColour = secondWires[3];
+            lessThanRatio = "less than 2:1";
         }
 
-        else if (ratio >= 5.0 / 2.0)
+        else
         {
-            secondWireColour = colourList[secondWires[4]];
-            closestRatio = "3:1";
+            secondWireColour = secondWires[4];
+            lessThanRatio = "greater than or equal to 2:1";
         }
         ix = 0;
         string duplicate = "";
@@ -293,11 +285,11 @@ public class InnerConnectionsScript : MonoBehaviour
             ix++;
             goto tryagain;
         }
-        Debug.LogFormat("[Inner Connections #{0}] The closest ratio of solved:unsolved modules is {1}. {2}The second wire colour to cut is {3}.", _moduleId, closestRatio, duplicate, secondWireColour);
+        Debug.LogFormat("[Inner Connections #{0}] The ratio of solved:unsolved modules is {1}. {2}The second wire colour to cut is {3}.", _moduleId, lessThanRatio, duplicate, colourList[secondWireColour]);
 
         for (int i = 0; i < Wires.Length / 2; i++)
         {
-            if (wireColourNames[i] == firstWireColour || wireColourNames[i] == secondWireColour)
+            if (wireColours[i] == firstWireColour || wireColours[i] == secondWireColour)
                 wiresNeededToCut[i] = true;
         }
 
@@ -312,7 +304,7 @@ public class InnerConnectionsScript : MonoBehaviour
         bool correctCuts = true;
         if (!wiresNeededToCut[num])
         {
-            Debug.LogFormat("[Inner Connections #{0}] You cut a {1} wire. Strike!", _moduleId, wireColourNames[num]);
+            Debug.LogFormat("[Inner Connections #{0}] You cut a {1} wire. Strike!", _moduleId, colourList[wireColours[num]]);
             Strike();
         }
         for (int i = 0; i < wiresNeededToCut.Length; i++)
@@ -360,12 +352,12 @@ public class InnerConnectionsScript : MonoBehaviour
             Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, RightArrow.transform);
             if (wiresPosition == 0)
             {
-                StartCoroutine(Move(WireParent.transform, 0f, -0.063f, 0.0065f, 0f));
+                StartCoroutine(Move(WireParent.transform, 0f, -0.063f, 0.009f, 0f));
                 wiresPosition = 1;
             }
             else if (wiresPosition == 1)
             {
-                StartCoroutine(Move(WireParent.transform, -0.063f, -0.126f, 0.0065f, 0f));
+                StartCoroutine(Move(WireParent.transform, -0.063f, -0.126f, 0.009f, 0f));
                 wiresPosition = 2;
             }
         }
