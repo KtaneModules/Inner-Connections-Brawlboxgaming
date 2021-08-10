@@ -222,6 +222,7 @@ public class InnerConnectionsScript : MonoBehaviour
             }
             yield return new WaitForSeconds(1.5f);
         }
+        LED.sharedMaterial = LEDColoursOff[0];
     }
 
     private bool StartButtonHandler()
