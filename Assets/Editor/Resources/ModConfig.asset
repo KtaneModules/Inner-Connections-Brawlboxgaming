@@ -25,4 +25,4 @@ MonoBehaviour:
     [url=http://ktane.timwi.de/HTML/Inner%20Connections.html]Manual HTML[/url]'
   version: 1.0
   outputFolder: build
-  previewImage: {fileID: 2800000, guid: 7cacad3460b6be74087079b300d7256f, type: 3}
+  previewImage: {fileID: 2800000, guid: 926487e5cf73fa64db176e43ee1e27ff, type: 3}
