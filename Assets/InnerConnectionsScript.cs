@@ -204,7 +204,7 @@ public class InnerConnectionsScript : MonoBehaviour
         StartCoroutine(Move(RightDoor.transform, 0.04f, 0f, -0.04035617f, 0f));
         StartCoroutine(Move(RightDoorFrame.transform, 0.04f, 0f, -0.04035617f, 0f));
         StopCoroutine(timer);
-        TimerText.text = "00";
+        TimerText.text = "--";
         _doorOpen = false;
     }
 
@@ -331,12 +331,12 @@ public class InnerConnectionsScript : MonoBehaviour
             Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, LeftArrow.transform);
             if (wiresPosition == 2)
             {
-                StartCoroutine(Move(WireParent.transform, -0.126f, -0.063f, 0.0065f, 0f));
+                StartCoroutine(Move(WireParent.transform, -0.126f, -0.063f, 0.009f, 0f));
                 wiresPosition = 1;
             }
             else if (wiresPosition == 1)
             {
-                StartCoroutine(Move(WireParent.transform, -0.063f, 0f, 0.0065f, 0f));
+                StartCoroutine(Move(WireParent.transform, -0.063f, 0f, 0.009f, 0f));
                 wiresPosition = 0;
             }
         }
@@ -354,12 +354,12 @@ public class InnerConnectionsScript : MonoBehaviour
             Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, RightArrow.transform);
             if (wiresPosition == 0)
             {
-                StartCoroutine(Move(WireParent.transform, 0f, -0.063f, 0.0065f, 0f));
+                StartCoroutine(Move(WireParent.transform, 0f, -0.063f, 0.009f, 0f));
                 wiresPosition = 1;
             }
             else if (wiresPosition == 1)
             {
-                StartCoroutine(Move(WireParent.transform, -0.063f, -0.126f, 0.0065f, 0f));
+                StartCoroutine(Move(WireParent.transform, -0.063f, -0.126f, 0.009f, 0f));
                 wiresPosition = 2;
             }
         }
