@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Rnd = UnityEngine.Random;
 using KModkit;
+using System.Text.RegularExpressions;
 
 public class InnerConnectionsScript : MonoBehaviour
 {
@@ -142,20 +143,18 @@ public class InnerConnectionsScript : MonoBehaviour
         {
             for (int i = 0; i < 18; i++)
             {
+                int j = i;
                 if (wiresCut[i])
                 {
                     Wires[i].SetActive(false);
-                    i = i + 18;
+                    j = i + 18;
                 }
 
-                if (childrenPosX[i] + parentPosX < -0.045f || childrenPosX[i] + parentPosX > 0.045f)
-                    Wires[i].SetActive(false);
+                if (childrenPosX[j] + parentPosX < -0.0475f || childrenPosX[j] + parentPosX > 0.0475f)
+                    Wires[j].SetActive(false);
 
                 else
-                    Wires[i].SetActive(true);
-
-                if (i > 17)
-                    i = i - 18;
+                    Wires[j].SetActive(true);
             }
         }
         else
@@ -174,7 +173,7 @@ public class InnerConnectionsScript : MonoBehaviour
             TimerText.text = i.ToString("00");
             yield return new WaitForSeconds(1f);
         }
-        TimerText.text = "00";
+        TimerText.text = "--";
         if (!_moduleSolved)
         {
             Debug.LogFormat("[Inner Connections #{0}] You ran out of time. Strike!", _moduleId);
@@ -192,7 +191,7 @@ public class InnerConnectionsScript : MonoBehaviour
         StartCoroutine(Move(RightDoor.transform, 0.04f, 0f, -0.04035617f, 0f));
         StartCoroutine(Move(RightDoorFrame.transform, 0.04f, 0f, -0.04035617f, 0f));
         StopCoroutine(timer);
-        TimerText.text = "47";
+        TimerText.text = "--";
         _doorOpen = false;
         _moduleSolved = true;
     }
@@ -240,10 +239,10 @@ public class InnerConnectionsScript : MonoBehaviour
             timer = StartCoroutine(Timer());
         }
 
-        int solvedModules = BombInfo.GetSolvedModuleNames().Count();
-        int unsolvedModules = BombInfo.GetSolvableModuleNames().Count() - BombInfo.GetSolvedModuleNames().Count();
+        double solvedModules = BombInfo.GetSolvedModuleNames().Count;
+        double unsolvedModules = BombInfo.GetSolvableModuleNames().Count - BombInfo.GetSolvedModuleNames().Count;
 
-        float ratio = solvedModules / unsolvedModules;
+        double ratio = solvedModules / unsolvedModules;
         string lessThanRatio = "";
 
         if (ratio < 1.0 / 4.0)
@@ -298,24 +297,27 @@ public class InnerConnectionsScript : MonoBehaviour
 
     private void WireHandler(int num)
     {
-        Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.WireSnip, Wires[num].transform);
-        wiresCut[num] = true;
-        WireDisabling();
-        bool correctCuts = true;
-        if (!wiresNeededToCut[num])
+        if (_doorOpen)
         {
-            Debug.LogFormat("[Inner Connections #{0}] You cut a {1} wire. Strike!", _moduleId, colourList[wireColours[num]]);
-            Strike();
-        }
-        for (int i = 0; i < wiresNeededToCut.Length; i++)
-        {
-            if (wiresNeededToCut[i] && !wiresCut[i])
+            Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.WireSnip, Wires[num].transform);
+            wiresCut[num] = true;
+            WireDisabling();
+            bool correctCuts = true;
+            if (!wiresNeededToCut[num])
             {
-                correctCuts = false;
+                Debug.LogFormat("[Inner Connections #{0}] You cut a {1} wire. Strike!", _moduleId, colourList[wireColours[num]]);
+                Strike();
             }
+            for (int i = 0; i < wiresNeededToCut.Length; i++)
+            {
+                if (wiresNeededToCut[i] && !wiresCut[i])
+                {
+                    correctCuts = false;
+                }
+            }
+            if (correctCuts)
+                Pass();
         }
-        if (correctCuts)
-            Pass();
     }
 
     private bool LeftArrowButtonHandler()
@@ -329,12 +331,12 @@ public class InnerConnectionsScript : MonoBehaviour
             Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, LeftArrow.transform);
             if (wiresPosition == 2)
             {
-                StartCoroutine(Move(WireParent.transform, -0.126f, -0.063f, 0.009f, 0f));
+                StartCoroutine(Move(WireParent.transform, -0.126f, -0.063f, 0.0065f, 0f));
                 wiresPosition = 1;
             }
             else if (wiresPosition == 1)
             {
-                StartCoroutine(Move(WireParent.transform, -0.063f, 0f, 0.009f, 0f));
+                StartCoroutine(Move(WireParent.transform, -0.063f, 0f, 0.0065f, 0f));
                 wiresPosition = 0;
             }
         }
@@ -352,12 +354,12 @@ public class InnerConnectionsScript : MonoBehaviour
             Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, RightArrow.transform);
             if (wiresPosition == 0)
             {
-                StartCoroutine(Move(WireParent.transform, 0f, -0.063f, 0.009f, 0f));
+                StartCoroutine(Move(WireParent.transform, 0f, -0.063f, 0.0065f, 0f));
                 wiresPosition = 1;
             }
             else if (wiresPosition == 1)
             {
-                StartCoroutine(Move(WireParent.transform, -0.063f, -0.126f, 0.009f, 0f));
+                StartCoroutine(Move(WireParent.transform, -0.063f, -0.126f, 0.0065f, 0f));
                 wiresPosition = 2;
             }
         }
@@ -381,5 +383,153 @@ public class InnerConnectionsScript : MonoBehaviour
         }
         obj.localPosition = new Vector3(endPosX, posY, posX);
         wiresMoving = false;
+    }
+
+#pragma warning disable 414
+    private readonly string TwitchHelpMessage = @"!{0} submit <colour1> <colour2> [colour names are: Black/K, Blue/B, Red/R, White/W, Yellow/Y]";
+#pragma warning restore 414
+
+    IEnumerator ProcessTwitchCommand(string command)
+    {
+        var match = Regex.Match(command.ToLowerInvariant(), @"^\s*submit\s+(.*?)\s+(.*?)\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+
+        if (match.Success)
+        {
+            int colourInt1 = -1;
+            int colourInt2 = -1;
+            switch (match.Groups[1].Value.Trim())
+            {
+                case "k":
+                case "black":
+                    colourInt1 = 0;
+                    break;
+                case "b":
+                case "blue":
+                    colourInt1 = 1;
+                    break;
+                case "r":
+                case "red":
+                    colourInt1 = 2;
+                    break;
+                case "w":
+                case "white":
+                    colourInt1 = 3;
+                    break;
+                case "y":
+                case "yellow":
+                    colourInt1 = 4;
+                    break;
+            }
+            switch (match.Groups[2].Value.Trim())
+            {
+                case "k":
+                case "black":
+                    colourInt2 = 0;
+                    break;
+                case "b":
+                case "blue":
+                    colourInt2 = 1;
+                    break;
+                case "r":
+                case "red":
+                    colourInt2 = 2;
+                    break;
+                case "w":
+                case "white":
+                    colourInt2 = 3;
+                    break;
+                case "y":
+                case "yellow":
+                    colourInt2 = 4;
+                    break;
+            }
+
+            if (colourInt1 == -1 || colourInt2 == -1)
+                yield break;
+
+            yield return null;
+
+            StartButton.OnInteract();
+            yield return new WaitForSeconds(1f);
+
+            while (wiresPosition > 0)
+            {
+                LeftArrow.OnInteract();
+                yield return new WaitForSeconds(1f);
+            }
+
+            for (int i = 0; i < 6; i++)
+            {
+                if ((wireColours[i] == colourInt1 || wireColours[i] == colourInt2) && !wiresCut[i])
+                {
+                    WireSelectables[i].OnInteract();
+                    yield return new WaitForSeconds(0.1f);
+                }
+            }
+            RightArrow.OnInteract();
+            yield return new WaitForSeconds(1f);
+            for (int i = 6; i < 12; i++)
+            {
+                if ((wireColours[i] == colourInt1 || wireColours[i] == colourInt2) && !wiresCut[i])
+                {
+                    WireSelectables[i].OnInteract();
+                    yield return new WaitForSeconds(0.1f);
+                }
+            }
+            RightArrow.OnInteract();
+            yield return new WaitForSeconds(1f);
+            for (int i = 12; i < 18; i++)
+            {
+                if ((wireColours[i] == colourInt1 || wireColours[i] == colourInt2) && !wiresCut[i])
+                {
+                    WireSelectables[i].OnInteract();
+                    yield return new WaitForSeconds(0.1f);
+                }
+            }
+            yield break;
+        }
+    }
+
+    IEnumerator TwitchHandleForcedSolve()
+    {
+        yield return null;
+        StartButton.OnInteract();
+        yield return new WaitForSeconds(1f);
+
+        while (wiresPosition > 0)
+        {
+            LeftArrow.OnInteract();
+            yield return new WaitForSeconds(1f);
+        }
+
+        for (int i = 0; i < 6; i++)
+        {
+            if (wiresNeededToCut[i] && !wiresCut[i])
+            {
+                WireSelectables[i].OnInteract();
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+        RightArrow.OnInteract();
+        yield return new WaitForSeconds(1f);
+        for (int i = 6; i < 12; i++)
+        {
+            if (wiresNeededToCut[i] && !wiresCut[i])
+            {
+                WireSelectables[i].OnInteract();
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+        RightArrow.OnInteract();
+        yield return new WaitForSeconds(1f);
+        for (int i = 12; i < 18; i++)
+        {
+            if (wiresNeededToCut[i] && !wiresCut[i])
+            {
+                WireSelectables[i].OnInteract();
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+        yield break;
     }
 }
