@@ -1,0 +1,193 @@
+fileFormatVersion: 2
+guid: d5c34000cde8d924981c2cac82225b6a
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: ButtonHighlight
+    100002: //RootNode
+    100004: LeftArrowHighlight
+    100006: RightArrowHightlight
+    100008: Wire10Highlight
+    100010: Wire11Highlight
+    100012: Wire12Highlight
+    100014: Wire13Highlight
+    100016: Wire14Highlight
+    100018: Wire15Highlight
+    100020: Wire16Highlight
+    100022: Wire17Highlight
+    100024: Wire18Highlight
+    100026: Wire1Highlight
+    100028: Wire2Highlight
+    100030: Wire3Highlight
+    100032: Wire4Highlight
+    100034: Wire5Hightlight
+    100036: Wire6Highlight
+    100038: Wire7Highlight
+    100040: Wire8Highlight
+    100042: Wire9Highlight
+    400000: ButtonHighlight
+    400002: //RootNode
+    400004: LeftArrowHighlight
+    400006: RightArrowHightlight
+    400008: Wire10Highlight
+    400010: Wire11Highlight
+    400012: Wire12Highlight
+    400014: Wire13Highlight
+    400016: Wire14Highlight
+    400018: Wire15Highlight
+    400020: Wire16Highlight
+    400022: Wire17Highlight
+    400024: Wire18Highlight
+    400026: Wire1Highlight
+    400028: Wire2Highlight
+    400030: Wire3Highlight
+    400032: Wire4Highlight
+    400034: Wire5Hightlight
+    400036: Wire6Highlight
+    400038: Wire7Highlight
+    400040: Wire8Highlight
+    400042: Wire9Highlight
+    2100000: No Name
+    2300000: ButtonHighlight
+    2300002: LeftArrowHighlight
+    2300004: RightArrowHightlight
+    2300006: Wire10Highlight
+    2300008: Wire11Highlight
+    2300010: Wire12Highlight
+    2300012: Wire13Highlight
+    2300014: Wire14Highlight
+    2300016: Wire15Highlight
+    2300018: Wire16Highlight
+    2300020: Wire17Highlight
+    2300022: Wire18Highlight
+    2300024: Wire1Highlight
+    2300026: Wire2Highlight
+    2300028: Wire3Highlight
+    2300030: Wire4Highlight
+    2300032: Wire5Hightlight
+    2300034: Wire6Highlight
+    2300036: Wire7Highlight
+    2300038: Wire8Highlight
+    2300040: Wire9Highlight
+    3300000: ButtonHighlight
+    3300002: LeftArrowHighlight
+    3300004: RightArrowHightlight
+    3300006: Wire10Highlight
+    3300008: Wire11Highlight
+    3300010: Wire12Highlight
+    3300012: Wire13Highlight
+    3300014: Wire14Highlight
+    3300016: Wire15Highlight
+    3300018: Wire16Highlight
+    3300020: Wire17Highlight
+    3300022: Wire18Highlight
+    3300024: Wire1Highlight
+    3300026: Wire2Highlight
+    3300028: Wire3Highlight
+    3300030: Wire4Highlight
+    3300032: Wire5Hightlight
+    3300034: Wire6Highlight
+    3300036: Wire7Highlight
+    3300038: Wire8Highlight
+    3300040: Wire9Highlight
+    4300000: Wire1Highlight
+    4300002: Wire7Highlight
+    4300004: Wire2Highlight
+    4300006: Wire4Highlight
+    4300008: Wire11Highlight
+    4300010: Wire3Highlight
+    4300012: Wire5Hightlight
+    4300014: Wire9Highlight
+    4300016: Wire6Highlight
+    4300018: Wire8Highlight
+    4300020: Wire10Highlight
+    4300022: Wire12Highlight
+    4300024: Wire13Highlight
+    4300026: Wire15Highlight
+    4300028: Wire17Highlight
+    4300030: Wire18Highlight
+    4300032: Wire14Highlight
+    4300034: Wire16Highlight
+    4300036: RightArrowHightlight
+    4300038: LeftArrowHighlight
+    4300040: ButtonHighlight
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
