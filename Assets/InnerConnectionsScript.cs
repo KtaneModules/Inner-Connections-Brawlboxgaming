@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using Rnd = UnityEngine.Random;
-using KModkit;
 using System.Text.RegularExpressions;
+using KModkit;
+using UnityEngine;
+
+using Rnd = UnityEngine.Random;
 
 public class InnerConnectionsScript : MonoBehaviour
 {
@@ -27,13 +27,12 @@ public class InnerConnectionsScript : MonoBehaviour
     private bool _moduleSolved, _doorOpen, wiresMoving = false;
     private static readonly string[] morseArray = new[] { "-----", ".----", "..---", "...--", "....-", ".....", "-....", "--...", "---..", "----." },
                                      colourList = new[] { "Black", "Blue", "Red", "White", "Yellow" };
-    private List<int[]> firstColourTable = new List<int[]>();
-    private int[] rndArray = new[] { 0, 1, 2, 3, 4 }, rndColoursArray = new[] { 0, 1, 2, 3, 4 }, exceptionWires = new int[2], secondWires = new int[5], wireColours = new int[18];
+    private readonly List<int[]> firstColourTable = new List<int[]>();
+    private readonly int[] rndArray = new[] { 0, 1, 2, 3, 4 }, rndColoursArray = new[] { 0, 1, 2, 3, 4 }, exceptionWires = new int[2], secondWires = new int[5], wireColours = new int[18];
     private float[] childrenPosX;
     private float parentPosX;
     private int firstWireColour, secondWireColour;
-    private bool[] wiresCut = new[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
-           wiresNeededToCut = new[] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false };
+    private readonly bool[] wiresCut = new bool[18], wiresNeededToCut = new bool[18];
 
     void Start()
     {
@@ -141,28 +140,25 @@ public class InnerConnectionsScript : MonoBehaviour
     {
         if (_doorOpen)
         {
-            for (int i = 0; i < 18; i++)
+            for (int uncutWireIndex = 0; uncutWireIndex < 18; uncutWireIndex++)
             {
-                int j = i;
-                if (wiresCut[i])
+                int wireIndex = uncutWireIndex;
+                if (wiresCut[uncutWireIndex])
                 {
-                    Wires[i].SetActive(false);
-                    j = i + 18;
+                    Wires[uncutWireIndex].SetActive(false);
+                    wireIndex = uncutWireIndex + 18;
                 }
 
-                if (childrenPosX[j] + parentPosX < -0.0475f || childrenPosX[j] + parentPosX > 0.0475f)
-                    Wires[j].SetActive(false);
-
+                if (childrenPosX[wireIndex] + parentPosX < -0.0475f || childrenPosX[wireIndex] + parentPosX > 0.0475f)
+                    Wires[wireIndex].SetActive(false);
                 else
-                    Wires[j].SetActive(true);
+                    Wires[wireIndex].SetActive(true);
             }
         }
         else
         {
             for (int i = 0; i < childrenPosX.Length; i++)
-            {
                 Wires[i].SetActive(false);
-            }
         }
     }
 
@@ -277,7 +273,7 @@ public class InnerConnectionsScript : MonoBehaviour
         }
         ix = 0;
         string duplicate = "";
-    tryagain:
+        tryagain:
         if (firstWireColour == secondWireColour)
         {
             secondWireColour = firstColourTable[0][ix];
@@ -288,10 +284,7 @@ public class InnerConnectionsScript : MonoBehaviour
         Debug.LogFormat("[Inner Connections #{0}] The ratio of solved:unsolved modules is {1}. {2}The second wire colour to cut is {3}.", _moduleId, lessThanRatio, duplicate, colourList[secondWireColour]);
 
         for (int i = 0; i < Wires.Length / 2; i++)
-        {
-            if (wireColours[i] == firstWireColour || wireColours[i] == secondWireColour)
-                wiresNeededToCut[i] = true;
-        }
+            wiresNeededToCut[i] = wireColours[i] == firstWireColour || wireColours[i] == secondWireColour;
 
         return false;
     }
@@ -303,20 +296,13 @@ public class InnerConnectionsScript : MonoBehaviour
             Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.WireSnip, Wires[num].transform);
             wiresCut[num] = true;
             WireDisabling();
-            bool correctCuts = true;
             if (!wiresNeededToCut[num])
             {
                 Debug.LogFormat("[Inner Connections #{0}] You cut a {1} wire. Strike!", _moduleId, colourList[wireColours[num]]);
                 Strike();
             }
-            for (int i = 0; i < wiresNeededToCut.Length; i++)
-            {
-                if (wiresNeededToCut[i] && !wiresCut[i])
-                {
-                    correctCuts = false;
-                }
-            }
-            if (correctCuts)
+
+            if (Enumerable.Range(0, 18).All(ix => !wiresNeededToCut[ix] || wiresCut[ix]))
                 Pass();
         }
     }
