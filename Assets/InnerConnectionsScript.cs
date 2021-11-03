@@ -38,7 +38,7 @@ public class InnerConnectionsScript : MonoBehaviour
     {
         var random = RuleSeedable.GetRNG();
         random.ShuffleFisherYates(rndColoursArray);
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 9; i++)
         {
             random.ShuffleFisherYates(rndColoursArray);
             firstColourTable.Add(rndColoursArray.ToArray());
